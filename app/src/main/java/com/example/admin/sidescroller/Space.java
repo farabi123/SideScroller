@@ -18,7 +18,7 @@ public class Space {
             }
             void draw(Canvas c) {
                 Paint space = new Paint();
-                space.setColor(Color.TRANSPARENT);
+                space.setColor(Color.WHITE);
                 c.drawRect(x, y, x + 140, y + 145, space);
             }
     int move(){
