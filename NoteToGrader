@@ -1,0 +1,19 @@
+Dear grader, 
+I lost a good portion of my code earlier today and I have been trying to restore it since.
+the code I have submitted is from earlier stages of the app development when things didn't work properly.
+I have run out of time as the deadline is approaching. 
+My code had other functionalities earlier including a scrolling screen, an opponent who shoots and the player who shoots.
+I also had Bitmaps but I am not able to fully restore them.
+Due to lack of time I was unable to implement all the processes again, which is why a lot of it is left in comments. 
+
+Original Instructions to completion (I don't think this runs properly anymore or my emulator is really messing up):
+Player moves on to the next level after collecting all the coins in the level
+First level: 
+Player collects all the coins and then moves to the next level 
+Second level: 
+Player collects all the coins and then moves to the next level
+Third level: 
+Player collects coins but as he approaches the fire he is killed. 
+The player can be revived up to three times such that the level resets three times, after that the player dies forever. 
+ 
+Thank you.
