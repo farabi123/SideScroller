@@ -113,7 +113,7 @@ public class ScrollerView extends SurfaceView implements SurfaceHolder.Callback 
         bgd.update(player.x);
 
 
-        for (i = 0; i < 20; i++) {
+        for (i = 0; i < 15; i++) {
             for (j = 0; j < 13; j++) {
                 if (game[i][j] != null) {
                     game[i][j].draw(c);
@@ -376,7 +376,7 @@ public class ScrollerView extends SurfaceView implements SurfaceHolder.Callback 
     //Check if level is complete method bode
     public boolean checkLevelComplete(){
         countCoins=0;
-        for (i = 0; i < 20; i++) {
+        for (i = 0; i < 15; i++) {
             for (j = 0; j < 13; j++) {
                 if (game[i][j] != null) {
                     if (game[i][j].isCoin()) {

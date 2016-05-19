@@ -13,10 +13,10 @@ public class Lives extends Space {
         }
 
         void draw(Canvas c) {
-            //Paint wall = new Paint();
-            //wall.setColor(Color.GREEN);
-            //c.drawRect(x, y+50, x + 125, y + 145, wall);
-            space_rect = new Rect(x, y, x + 125, y + 145);
+            Paint wall = new Paint();
+            wall.setColor(Color.GREEN);
+            c.drawRect(x, y+50, x + 125, y + 145, wall);
+            //space_rect = new Rect(x, y, x + 125, y + 145);
         }
 }
 
