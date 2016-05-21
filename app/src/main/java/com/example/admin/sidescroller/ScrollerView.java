@@ -136,8 +136,10 @@ public class ScrollerView extends SurfaceView implements SurfaceHolder.Callback 
         Bitmap three = BitmapFactory.decodeResource(getResources(), R.drawable.three);
         Bitmap fireball = BitmapFactory.decodeResource(getResources(), R.drawable.firebullet);
 
-        c.drawBitmap(fire, null, game[7][8].space_rect, null);
-        if (!deadPlayer || deadOpponent) {
+        if(!deadOpponent) {
+            c.drawBitmap(fire, null, game[7][8].space_rect, null);
+        }
+        if (!deadPlayer) {
             c.drawBitmap(dino, null, player.space_rect, null);
             //c.drawBitmap(fireball, null, bullet.space_rect, null);
         }
@@ -165,7 +167,7 @@ public class ScrollerView extends SurfaceView implements SurfaceHolder.Callback 
         else if(newLevel==3) {
             c.drawBitmap(three, null, game[4][12].space_rect, null);
         }
-        opponentShoot();
+        //opponentShoot();
         playerShoot();
 
         //PlayerIndexX=player.Xindex;
