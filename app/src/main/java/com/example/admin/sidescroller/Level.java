@@ -45,24 +45,25 @@ public class Level {
                     }
                 }
                 for (i = 0; i < 14; i++) {
-                    game[i][7] = new Space((i) * 135, 7 * 119, i, 7);
+                        game[i][7] = new Space((i) * 135, 7 * 119, i, 7);
                 }
 
                 //COINS AND SPACES
                 game[1][8] = new Space((1) * 135, 8 * 119, 1, 8);
                 game[2][8] = new Space((2) * 135, 8 * 119, 2, 8);
-                game[3][8] = new Coin((3) * 135, 8 * 119, 3, 8);
+                game[3][8] = new Space((3) * 135, 8 * 119, 3, 8);
                 game[4][8] = new Space((4) * 135, 8 * 119, 4, 8);
-                game[5][8] = new Coin((5) * 135, 8 * 119, 5, 8);
+                game[5][8] = new Space((5) * 135, 8 * 119, 5, 8);
                 game[6][8] = new Space((6) * 135, 8 * 119, 6, 8);
-                game[7][8] = new Coin((7) * 135, 8 * 119, 7, 8);
+                game[7][8] = new Opponent((7) * 135, 8 * 119, 7, 8);
+
                 game[8][8] = new Space((8) * 135, 8 * 119, 8, 8);
                 game[9][8] = new Coin((9) * 135, 8 * 119, 9, 8);
                 game[10][8] = new Space((10) * 135, 8 * 119, 10, 8);
                 game[11][8] = new Coin((11) * 135, 8 * 119, 11, 8);
                 game[12][8] = new Space((12) * 135, 8 * 119, 12, 8);
-                game[13][8] = new Coin((13) * 135, 8 * 119, 13, 8);
-                game[14][8] = new Coin((14) * 135, 8 * 119, 14, 8);
+                game[13][8] = new Space((13) * 135, 8 * 119, 13, 8);
+                game[14][8] = new Space((14) * 135, 8 * 119, 14, 8);
 
                 game[0][8] = new Player(0 * 135, 8 * 119, 0, 8);
                 player = game[0][8];
