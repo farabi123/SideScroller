@@ -21,9 +21,6 @@ public class Player extends Space{
 
     void draw(Canvas c)
     {
-        //Paint ball = new Paint();
-        //ball.setColor(Color.BLUE);
-        //c.drawCircle(x+70, y+80, r, ball);
         space_rect = new Rect(x, y+50, x + 125, y + 145);
     }
 

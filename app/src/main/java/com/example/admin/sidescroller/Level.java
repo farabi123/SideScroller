@@ -9,7 +9,6 @@ public class Level {
     Space player;
     Space bullet;
     Space newPlayer;
-//    Space newBullet;
     Space [][] game;
     int previous=0;
     int delta = 0;
@@ -17,35 +16,19 @@ public class Level {
     public Level(){}
 
     public void update( int playerIndex, int thelevel) {
-        System.out.println("thelevel=" + thelevel);
         if(thelevel==level+1) {
-            System.out.println("NOW IN NEXT LEVEL");
             delta = 0;
             previous=0;
-            System.out.println("level before=" + level);
             level=thelevel;
-            System.out.println("level after=" + level);
         }
-        //int i, j;
         //if the players index has changed
         if((playerIndex > previous) && playerIndex >= 4 && playerIndex < 15) {
-            System.out.println("previous >=" + previous);
-            System.out.println("playerIndex >=" + playerIndex);
             delta++;
-            System.out.println("delta >=" + delta);
             previous = playerIndex;
         }
-        // else if(playerIndex < previous) {
-        // System.out.println("previous <=" + previous);
-        //   System.out.println("playerIndex <=" + playerIndex);
-        //delta--;
-        //System.out.println("delta <=" + delta);
-        //previous = playerIndex;
-        //}
     }
     public void loadLevel(int level) {
         int i, j;
-        System.out.println("delta inside loadlevel=" + delta);
         game = new Space[15][13];
 
         switch (level) {
@@ -188,13 +171,6 @@ public class Level {
                 game[0][12] = new Lives(0 * 135, 12 * 119, 0, 12);
                 game[1][12] = new Lives(1 * 135, 12 * 119, 1, 12);
                 game[2][12] = new Lives(2 * 135, 12 * 119, 2, 12);
-                //SPACES
-                //for (i = 1; i < 4; i++) {
-                //  game[i][8] = new Space((i) * 135, 8 * 119, i, 8);
-                //}
-                // for (i = 7; i < 15; i++) {
-                //       game[i][8] = new Space((i) * 135, 8 * 119, i, 8);
-                //}
 
                 break;
         }
@@ -215,10 +191,8 @@ public class Level {
         } else if (IndX >= 4 && IndX < 15) {
             for (i = 0; i < 15; i++) {
                 for (j = 0; j < 9; j++) {
-                    System.out.println("delta inside =" + delta);
                     newGame[i][j].x = (-delta + i) * 135;
                     newPlayer = newGame[IndX][8];
-             //       newBullet = newGame[bulletIndX][8];
                 }
             }
         }
