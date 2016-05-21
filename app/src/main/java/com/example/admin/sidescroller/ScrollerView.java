@@ -120,28 +120,28 @@ public class ScrollerView extends SurfaceView implements SurfaceHolder.Callback 
                 }
             }
         }
-       // boolean complete=checkLevelComplete();
+        boolean complete=checkLevelComplete();
         //System.out.println("COMPLETE? "+complete);
-        /*if(complete){
+        if(complete){
             newLevel=newLevel+1;
             System.out.println("NEW LEVEL="+newLevel);
             level.loadLevel(newLevel);
             game=level.getMap();
             player=level.getPlayer();
-            bullet=level.getBullet();
-        }*/
+            //bullet=level.getBullet();
+        }
         Bitmap fire = BitmapFactory.decodeResource(getResources(), R.drawable.fire);
         Bitmap dino = BitmapFactory.decodeResource(getResources(), R.drawable.dino);
         Bitmap fireball = BitmapFactory.decodeResource(getResources(), R.drawable.firebullet);
 
         //c.drawBitmap(fire, null, game[7][8].space_rect, null);
-        //if(!deadPlayer) {
-          //  c.drawBitmap(dino, null, player.space_rect, null);
+        if(!deadPlayer) {
+            c.drawBitmap(dino, null, player.space_rect, null);
             //c.drawBitmap(fireball, null, bullet.space_rect, null);
-        //}
-       // c.drawBitmap(dino, null, game[0][12].space_rect, null);
-        //c.drawBitmap(dino, null, game[1][12].space_rect, null);
-        //c.drawBitmap(dino, null, game[2][12].space_rect, null);
+        }
+        c.drawBitmap(dino, null, game[0][12].space_rect, null);
+        c.drawBitmap(dino, null, game[1][12].space_rect, null);
+        c.drawBitmap(dino, null, game[2][12].space_rect, null);
         //opponentShoot();
         //playerShoot();
         System.out.println("player x position b4 is="+player.x);
@@ -393,3 +393,4 @@ public class ScrollerView extends SurfaceView implements SurfaceHolder.Callback 
         return false;
     }
 }
+
