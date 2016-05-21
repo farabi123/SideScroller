@@ -14,13 +14,22 @@ public class Level {
     Space [][] newgame;
     int previous=0;
     int delta = 0;
-
+    int level=1;
     public Level(){}
 
-    public void update( int playerIndex) {
+    public void update( int playerIndex, int thelevel) {
+        System.out.println("thelevel=" + thelevel);
+        if(thelevel==level+1) {
+            System.out.println("NOW IN NEXT LEVEL");
+            delta = 0;
+            previous=0;
+            System.out.println("level before=" + level);
+            level=thelevel;
+            System.out.println("level after=" + level);
+        }
         //int i, j;
         //if the players index has changed
-        if(playerIndex > previous && playerIndex >= 4 && playerIndex < 15) {
+        if((playerIndex > previous) && playerIndex >= 4 && playerIndex < 15) {
             System.out.println("previous >=" + previous);
             System.out.println("playerIndex >=" + playerIndex);
             delta++;
@@ -56,12 +65,7 @@ public class Level {
                 for (i = 0; i < 14; i++) {
                         game[i][7] = new Space((i) * 135, 7 * 119, i, 7);
                 }
-               // game[0][7] = new Space(0* 135, 7 * 119, 0, 7);
-                //game[1][7] = new Space(1* 135, 7 * 119, 0, 7);
 
-                /*game[4][8] = new Coin((4) * 135, 8 * 119, 4, 8);
-                game[5][8] = new Coin((5) * 135, 8 * 119, 5, 8);
-                game[6][8] = new Coin((6) * 135, 8 * 119, 6, 8);*/
                 //COINS AND SPACES
                 game[1][8] = new Space((1) * 135, 8 * 119, 1, 8);
                 game[2][8] = new Space((2) * 135, 8 * 119, 2, 8);
@@ -90,13 +94,7 @@ public class Level {
                 game[0][12] = new Lives(0 * 135, 12 * 119, 0, 12);
                 game[1][12] = new Lives(1 * 135, 12 * 119, 1, 12);
                 game[2][12] = new Lives(2 * 135, 12 * 119, 2, 12);
-                //SPACES
-                //for (i = 1; i < 4; i++) {
-                  //  game[i][8] = new Space((i) * 135, 8 * 119, i, 8);
-                //}
-               // for (i = 7; i < 15; i++) {
-                 //       game[i][8] = new Space((i) * 135, 8 * 119, i, 8);
-                //}
+
 
                 break;
             case 2:
@@ -114,12 +112,7 @@ public class Level {
                 for (i = 0; i < 14; i++) {
                     game[i][7] = new Space((i) * 135, 7 * 119, i, 7);
                 }
-                // game[0][7] = new Space(0* 135, 7 * 119, 0, 7);
-                //game[1][7] = new Space(1* 135, 7 * 119, 0, 7);
 
-                /*game[4][8] = new Coin((4) * 135, 8 * 119, 4, 8);
-                game[5][8] = new Coin((5) * 135, 8 * 119, 5, 8);
-                game[6][8] = new Coin((6) * 135, 8 * 119, 6, 8);*/
                 //COINS AND SPACES
                 game[1][8] = new Coin((1) * 135, 8 * 119, 1, 8);
                 game[2][8] = new Space((2) * 135, 8 * 119, 2, 8);
@@ -167,7 +160,6 @@ public class Level {
     public Space [][] getNewMap( Space[][] newGame,Space nePlayer, int IndX) {
         int i, j;
         if ( IndX>= 0 && IndX < 4) {
-          //  System.out.println("BEGININNING SCREEN");
             for (i = 0; i < 15; i++) {
                 for (j = 0; j < 9; j++) {
                     newGame[i][j].x = i * 135;
@@ -178,16 +170,11 @@ public class Level {
                 for (j = 0; j < 9; j++) {
                     System.out.println("delta inside =" + delta);
                     newGame[i][j].x = (-delta + i) * 135;
-                    System.out.println("AFTER DELTA");
                     newPlayer = newGame[IndX][8];
-                    System.out.println("UPDATE PLAYER");
-                    //return newGame;
              //       newBullet = newGame[bulletIndX][8];
-                  //  System.out.println("MIDDLE SCREEN");
                 }
             }
         }
-        System.out.println("ABOUT TO RETURN");
         return newGame;
     }
 

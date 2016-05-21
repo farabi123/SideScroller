@@ -144,14 +144,11 @@ public class ScrollerView extends SurfaceView implements SurfaceHolder.Callback 
         c.drawBitmap(dino, null, game[2][12].space_rect, null);
         //opponentShoot();
         //playerShoot();
-        System.out.println("player x position b4 is="+player.x);
+
         PlayerIndexX=player.Xindex;
         //BulletIndexX=bullet.Xindex;
-        level.update(PlayerIndexX);
-        System.out.println("coordinates of element 6 before="+game[6][8].x);
+        level.update(PlayerIndexX, newLevel);
         game=level.getNewMap(game,player,PlayerIndexX);
-        System.out.println("coordinates of element 6 after="+game[6][8].x);
-        System.out.println("game has been updated maybe");
         player=level.getNewPlayer();
         System.out.println("player x position after is="+player.x);
         //bullet=level.getNewBullet();
