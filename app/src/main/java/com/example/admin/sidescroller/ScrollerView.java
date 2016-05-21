@@ -34,6 +34,7 @@ public class ScrollerView extends SurfaceView implements SurfaceHolder.Callback 
     float Dx, Dy;
     int count=0;
     int countt=0;
+    int counter=0;
     int countCoins=0;
     int countDeaths=0;
     int x_r= 5*122;
@@ -42,14 +43,15 @@ public class ScrollerView extends SurfaceView implements SurfaceHolder.Callback 
     int y_l= 11*119;
     int x_u= 4*122;
     int y_u= 10*119;
+    boolean upward = false;
+    boolean downward = false;
     boolean canFire = true;
-    boolean killedOpponent=false;
     boolean playerCanFire = true;
     boolean deadPlayer=false;
     Level level;
+    int PlayerIndexX=0;
     boolean reset=false;
     int newLevel=1;
-    boolean deadOpponent=false;
 
 
     @Override
@@ -63,7 +65,7 @@ public class ScrollerView extends SurfaceView implements SurfaceHolder.Callback 
         level.loadLevel(1);
         game=level.getMap();
         player=level.getPlayer();
-       // bullet=level.getBullet();
+        bullet=level.getBullet();
 
         st = new ScrollerThread(this);
         st.start();
@@ -71,23 +73,23 @@ public class ScrollerView extends SurfaceView implements SurfaceHolder.Callback 
 
     @Override
     public void draw(Canvas c) {
-        final float scalingFactorX = getWidth() / Width;
-        final float scalingFactorY = getHeight() / Height;
+        final float scalingFactorX= getWidth()/Width;
+        final float scalingFactorY= getHeight()/Height;
 
-        if (c != null) {
+        if(c!=null) {
             final int savedState = c.save();
             c.scale(scalingFactorX, scalingFactorY);
             bgd.draw(c);
             c.restoreToCount(savedState);
         }
 
-        if (reset && !deadPlayer) {
+        if(reset) {
             level.loadLevel(newLevel);
-            game = level.getMap();
-            player = level.getPlayer();
-            reset = false;
+            game=level.getMap();
+            player=level.getPlayer();
+            reset=false;
         }
-        //Backgroun update based on player position
+        //Update the background based on the player position
         bgd.update(player.x);
 
         for (i = 0; i < 15; i++) {
@@ -97,55 +99,42 @@ public class ScrollerView extends SurfaceView implements SurfaceHolder.Callback 
                 }
             }
         }
-        boolean complete = checkLevelComplete();
-        if (complete) {
-            newLevel = newLevel + 1;
+        boolean complete=checkLevelComplete();
+        //System.out.println("COMPLETE? "+complete);
+        if(complete){
+            newLevel=newLevel+1;
             level.loadLevel(newLevel);
-            game = level.getMap();
-            player = level.getPlayer();
+            game=level.getMap();
+            player=level.getPlayer();
         }
         Bitmap fire = BitmapFactory.decodeResource(getResources(), R.drawable.fire);
         Bitmap dino = BitmapFactory.decodeResource(getResources(), R.drawable.dino);
-        Bitmap cross = BitmapFactory.decodeResource(getResources(), R.drawable.cross);
         Bitmap one = BitmapFactory.decodeResource(getResources(), R.drawable.one);
         Bitmap two = BitmapFactory.decodeResource(getResources(), R.drawable.two);
         Bitmap three = BitmapFactory.decodeResource(getResources(), R.drawable.three);
 
-        if(!deadOpponent) {
-            c.drawBitmap(fire, null, game[7][8].space_rect, null);
-        }
-        if (!deadPlayer) {
+        if(!deadPlayer) {
             c.drawBitmap(dino, null, player.space_rect, null);
         }
-        if(countDeaths==0){
-            c.drawBitmap(dino, null, game[0][12].space_rect, null);
-            c.drawBitmap(dino, null, game[1][12].space_rect, null);
-            c.drawBitmap(dino, null, game[2][12].space_rect, null);
-        }
-        else if(countDeaths==1) {
-            c.drawBitmap(cross, null, game[2][12].space_rect, null);
-        }
-        else if(countDeaths==2) {
-            c.drawBitmap(cross, null, game[1][12].space_rect, null);
-            c.drawBitmap(cross, null, game[2][12].space_rect, null);
-        }
-         if(countDeaths==3 ){
-            c.drawBitmap(cross, null, game[0][12].space_rect, null);
-            c.drawBitmap(cross, null, game[1][12].space_rect, null);
-            c.drawBitmap(cross, null, game[2][12].space_rect, null);
-        }
-
+        c.drawBitmap(dino, null, game[0][12].space_rect, null);
+        c.drawBitmap(dino, null, game[1][12].space_rect, null);
+        c.drawBitmap(dino, null, game[2][12].space_rect, null);
         if(newLevel==1) {
             c.drawBitmap(one, null, game[4][12].space_rect, null);
         }
         else if(newLevel==2) {
             c.drawBitmap(two, null, game[4][12].space_rect, null);
         }
-        else if(newLevel==3 ) {
+        else if(newLevel==3) {
             c.drawBitmap(three, null, game[4][12].space_rect, null);
         }
-        opponentShoot();
-        playerShoot();
+        //opponentShoot();
+        //playerShoot();
+
+        PlayerIndexX=player.Xindex;
+        level.update(PlayerIndexX, newLevel);
+        game=level.getNewMap(game,player,PlayerIndexX);
+        player=level.getNewPlayer();
 
     }//END OF DRAWING
 
@@ -172,21 +161,19 @@ public class ScrollerView extends SurfaceView implements SurfaceHolder.Callback 
                 System.out.println("CLICK DOWN");
                 Dx = e.getX();
                 Dy = e.getY();
-                //System.out.println("player x after getnewplayer="+player.x);
                 int indexX = player.Xindex;
                 int indexY = player.Yindex;
-                System.out.println("indexX"+indexX);
-                System.out.println("IndexY"+indexY);
 
-                //System.out.println("click down can_fire: "+canFire);
                 if(playerCanFire) {
                     if (Dx >= x_u && Dx <= (x_u + 125) && Dy >= (y_u + 50) && Dy <= (y_u + 145)) {
                         System.out.println("CLICK SHOOT");
-                        game[indexX+1][indexY]= new BulletPlayer(player.x+90, player.y,player.Xindex, player.Yindex);
+                        //game[indexX+1][indexY]= new BulletPlayer(player.x+90, player.y);
                         bulletplayer= game[indexX+1][indexY];
                         playerCanFire = false;
                     }
                 }
+                downward = true;
+                upward= false;
 
                 //Move method called here depending on which arrow pad is clicked
                 if (Dx >= x_r && Dx <= (x_r + 125) && Dy >= (y_r + 50) && Dy <= (y_r + 145)) {
@@ -215,7 +202,7 @@ public class ScrollerView extends SurfaceView implements SurfaceHolder.Callback 
             game[to_x][to_y] = new Player(to_x * 135, to_y * 119, to_x,to_y);
             player = game[to_x][to_y];
         }
-         if (game[from_x][from_y].isPlayer()) {
+        if (game[from_x][from_y].isPlayer()) {
             game[from_x][from_y] = new Space(from_x * 135, from_y * 119,from_x,from_y);
         }
         if (game[to_x][to_y].isCoin()) {
@@ -224,10 +211,9 @@ public class ScrollerView extends SurfaceView implements SurfaceHolder.Callback 
         }
         if (game[to_x][to_y].isOpponent()){
             countDeaths++;
-            System.out.println("countdeaths"+countDeaths);
-                if(countDeaths<3) {
-                    reset=true;
-                    System.out.println("RESET="+reset);
+            if(countDeaths<3) {
+                reset=true;
+                System.out.println("RESET="+reset);
 
                 if(countDeaths==1) {
                     System.out.println("HE DIED ONCE=");
@@ -236,7 +222,7 @@ public class ScrollerView extends SurfaceView implements SurfaceHolder.Callback 
                     System.out.println("HE DIED TWICE=");
                 }
             } else if(countDeaths>=3){
-                    reset=false;
+                reset=false;
                 canFire=false;
                 game[to_x][to_y] = new DeadPlayer(to_x * 135, to_y * 119, to_x,to_y);
                 deadPlayer=true;
@@ -245,30 +231,38 @@ public class ScrollerView extends SurfaceView implements SurfaceHolder.Callback 
     }
 
     //opponent shooting method
-    public void opponentShoot() {
+   /* public void opponentShoot() {
 
-        if (canFire){
+        //long time2 = System.currentTimeMillis()/1000;
+
+        //long timeDifference=time2-time1;
+        //System.out.println("time in seconds="+timeDifference);
+        if (canFire) {
+            //&& timeDifference%3==0) {
+            //time1= System.currentTimeMillis()/1000;
             game[6][8] = new Bullet(6 * 135, 8 * 119, 6, 8);
             bullet = game[6][8];
             canFire = false;
-        }
+            System.out.println("MADE THE BULLET");
 
+        }
         count = bullet.move();
-        int fromX = bullet.x/135 + 2;
-        int fromY = bullet.y/119;
+
+        int fromX = bullet.Xindex + 2;
+        int fromY = bullet.Yindex;
         int toX = fromX - 1;
         System.out.println("count=" + count);
-        System.out.println("bullet x=" + bullet.x);
+        System.out.println("bulletplayer x=" + bullet.x);
         //System.out.println("bulletplayer y=" + bulletplayer.y);
         System.out.println("fromX=" + fromX);
         System.out.println("toX=" + toX);
-        if (bullet.x == -45) {
+        if (bullet.x == -15) {
             fromX = 1;
             toX = 0;
-            count = 4;
+            count = 10;
         }
 
-        if (count == 4) {
+        if (count == 10) {
             if (game[toX][fromY].isPlayer() && killedOpponent == false) {
                 game[fromX][fromY] = new Space(fromX * 135, fromY * 119, fromX, fromY);
                 game[toX][fromY] = new Space(toX * 135, fromY * 119, toX, fromY);
@@ -284,26 +278,41 @@ public class ScrollerView extends SurfaceView implements SurfaceHolder.Callback 
                     }
                     canFire = true;
                 } else if (countDeaths >= 3) {
-                    deadPlayer = true;
                     reset = false;
                     canFire = false;
                     playerCanFire = false;
                     game[toX][fromY] = new DeadPlayer((toX) * 135, fromY * 119, toX, fromY);
-
+                    deadPlayer = true;
                 }
             }
 
-            else if (game[toX][fromY].isFree()) {
+            /*else if (game[toX][fromY].isPlayer() && killedOpponent==true) {
+                System.out.print("he thinks it's a free space after killing the opponent");
+                game[fromX][fromY] = new Space(fromX * 135, fromY * 119);
+                game[toX][fromY] = new Space(fromX * 135, fromY * 119);
+                canFire=false;
+                playerCanFire=true;
+            }*/
+       /*     else if (game[toX][fromY].isFree()) {
                 game[toX][fromY] = new Bullet(toX * 135, fromY * 119, toX, fromY);
                 bullet = game[toX][fromY];
                 game[fromX][fromY] = new Space(fromX * 135, fromY * 119, fromX, fromY);
                 canFire = false;
+            } else {
+                System.out.print("he thinks it's something ELSE");
+                System.out.println("CLASS ELSE: " + String.valueOf(game[toX][fromY].getClass()));
             }
-        }
-    }
+            /*else if(game[toX][fromY].isBulletPlayer()) {
+                game[toX][fromY] = new Space(toX * 135, fromY * 119);
+                game[fromX][fromY] = new Space(fromX * 135, fromY * 119);
+                canFire=true;
+                playerCanFire = true;
+            }*/
+    // }
+    //}
 
     //Player shooting method
-    public void playerShoot(){
+    /*public void playerShoot(){
         countt = bulletplayer.move();
         int fromXp = bulletplayer.x / 135;
         int fromYp = bulletplayer.y / 119;
@@ -311,28 +320,27 @@ public class ScrollerView extends SurfaceView implements SurfaceHolder.Callback 
 
         if (countt == 2) {
             if(game[toXp][fromYp].isOpponent()){
-                deadOpponent=true;
-                game[toXp][fromYp] = new Space(toXp * 135, fromYp * 119, toXp, fromYp);
-                game[fromXp][fromYp] = new Space(fromXp * 135, fromYp * 119,fromXp,fromYp);
+                game[toXp][fromYp] = new Space(toXp * 135, fromYp * 119);
+                game[fromXp][fromYp] = new Space(fromXp * 135, fromYp * 119);
                 canFire=false;
                 playerCanFire = true;
                 killedOpponent=true;
             }
             else if (game[toXp][fromYp].isFree()) {
-                game[toXp][fromYp] = new BulletPlayer(toXp * 135, fromYp * 119, toXp, fromYp);
+                game[toXp][fromYp] = new BulletPlayer(toXp * 135, fromYp * 119);
                 bulletplayer = game[toXp][fromYp];
-                game[fromXp][fromYp] = new Space(fromXp * 135, fromYp * 119, fromXp, fromYp);
+                game[fromXp][fromYp] = new Space(fromXp * 135, fromYp * 119);
                 playerCanFire= false;
             }
             else if(game[toXp][fromYp].isBullet()) {
-                game[toXp][fromYp] = new Space(toXp * 135, fromYp * 119, toXp, fromYp);
-                game[fromXp][fromYp] = new Space(fromXp * 135, fromYp * 119,fromXp, fromYp);
+                game[toXp][fromYp] = new Space(toXp * 135, fromYp * 119);
+                game[fromXp][fromYp] = new Space(fromXp * 135, fromYp * 119);
                 canFire=true;
                 playerCanFire = true;
             }
         }
         return;
-    }
+    }*/
     //Check if level is complete method bode
     public boolean checkLevelComplete(){
         countCoins=0;
