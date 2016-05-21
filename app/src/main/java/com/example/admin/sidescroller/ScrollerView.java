@@ -59,6 +59,7 @@ public class ScrollerView extends SurfaceView implements SurfaceHolder.Callback 
     int BulletIndexX=0;
     boolean reset=false;
     int newLevel=1;
+    boolean deadOpponent=false;
 
 
     @Override
@@ -136,7 +137,7 @@ public class ScrollerView extends SurfaceView implements SurfaceHolder.Callback 
         Bitmap fireball = BitmapFactory.decodeResource(getResources(), R.drawable.firebullet);
 
         c.drawBitmap(fire, null, game[7][8].space_rect, null);
-        if (!deadPlayer) {
+        if (!deadPlayer || deadOpponent) {
             c.drawBitmap(dino, null, player.space_rect, null);
             //c.drawBitmap(fireball, null, bullet.space_rect, null);
         }
@@ -165,7 +166,7 @@ public class ScrollerView extends SurfaceView implements SurfaceHolder.Callback 
             c.drawBitmap(three, null, game[4][12].space_rect, null);
         }
         opponentShoot();
-        //playerShoot();
+        playerShoot();
 
         //PlayerIndexX=player.Xindex;
         //BulletIndexX=bullet.Xindex;
@@ -211,14 +212,12 @@ public class ScrollerView extends SurfaceView implements SurfaceHolder.Callback 
                 if(playerCanFire) {
                     if (Dx >= x_u && Dx <= (x_u + 125) && Dy >= (y_u + 50) && Dy <= (y_u + 145)) {
                         System.out.println("CLICK SHOOT");
-                        //game[indexX+1][indexY]= new BulletPlayer(player.x+90, player.y);
+                        game[indexX+1][indexY]= new BulletPlayer(player.x+90, player.y,player.Xindex, player.Yindex);
                         bulletplayer= game[indexX+1][indexY];
                         playerCanFire = false;
                         //counter++;
                     }
                 }
-                downward = true;
-                upward= false;
 
                 //Move method called here depending on which arrow pad is clicked
                 if (Dx >= x_r && Dx <= (x_r + 125) && Dy >= (y_r + 50) && Dy <= (y_r + 145)) {
@@ -361,10 +360,10 @@ public class ScrollerView extends SurfaceView implements SurfaceHolder.Callback 
                 canFire=true;
                 playerCanFire = true;
             }*?
-    }
+    }*/
 
     //Player shooting method
-    /*public void playerShoot(){
+    public void playerShoot(){
         countt = bulletplayer.move();
         int fromXp = bulletplayer.x / 135;
         int fromYp = bulletplayer.y / 119;
@@ -372,27 +371,28 @@ public class ScrollerView extends SurfaceView implements SurfaceHolder.Callback 
 
         if (countt == 2) {
             if(game[toXp][fromYp].isOpponent()){
-                game[toXp][fromYp] = new Space(toXp * 135, fromYp * 119);
-                game[fromXp][fromYp] = new Space(fromXp * 135, fromYp * 119);
+                deadOpponent=true;
+                game[toXp][fromYp] = new Space(toXp * 135, fromYp * 119, toXp, fromYp);
+                game[fromXp][fromYp] = new Space(fromXp * 135, fromYp * 119,fromXp,fromYp);
                 canFire=false;
                 playerCanFire = true;
                 killedOpponent=true;
             }
             else if (game[toXp][fromYp].isFree()) {
-                game[toXp][fromYp] = new BulletPlayer(toXp * 135, fromYp * 119);
+                game[toXp][fromYp] = new BulletPlayer(toXp * 135, fromYp * 119, toXp, fromYp);
                 bulletplayer = game[toXp][fromYp];
-                game[fromXp][fromYp] = new Space(fromXp * 135, fromYp * 119);
+                game[fromXp][fromYp] = new Space(fromXp * 135, fromYp * 119, fromXp, fromYp);
                 playerCanFire= false;
             }
             else if(game[toXp][fromYp].isBullet()) {
-                game[toXp][fromYp] = new Space(toXp * 135, fromYp * 119);
-                game[fromXp][fromYp] = new Space(fromXp * 135, fromYp * 119);
+                game[toXp][fromYp] = new Space(toXp * 135, fromYp * 119, toXp, fromYp);
+                game[fromXp][fromYp] = new Space(fromXp * 135, fromYp * 119,fromXp, fromYp);
                 canFire=true;
                 playerCanFire = true;
             }
         }
         return;
-    }*/
+    }
     //Check if level is complete method bode
     public boolean checkLevelComplete(){
         countCoins=0;
