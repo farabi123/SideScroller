@@ -144,7 +144,7 @@ public class ScrollerView extends SurfaceView implements SurfaceHolder.Callback 
         else if(newLevel==3 ) {
             c.drawBitmap(three, null, game[4][12].space_rect, null);
         }
-        opponentShoot();
+        //opponentShoot();
         playerShoot();
 
     }//END OF DRAWING
