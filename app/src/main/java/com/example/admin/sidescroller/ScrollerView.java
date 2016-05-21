@@ -80,35 +80,33 @@ public class ScrollerView extends SurfaceView implements SurfaceHolder.Callback 
 
     @Override
     public void draw(Canvas c) {
-        final float scalingFactorX= getWidth()/Width;
-        final float scalingFactorY= getHeight()/Height;
+        final float scalingFactorX = getWidth() / Width;
+        final float scalingFactorY = getHeight() / Height;
 
-        if(c!=null) {
+        if (c != null) {
             final int savedState = c.save();
             c.scale(scalingFactorX, scalingFactorY);
             bgd.draw(c);
             c.restoreToCount(savedState);
         }
 
-        if(reset && !deadPlayer) {
+        if (reset && !deadPlayer) {
             System.out.println("RESET THE FUCKING LEVEL");
             level.loadLevel(newLevel);
-            if(countDeaths==1) {
+            /*if (countDeaths == 1) {
                 game[2][12] = new Wall(2 * 135, 12 * 119, 2, 12);
-            }
-            else if(countDeaths==2) {
+            } else if (countDeaths == 2) {
                 game[1][12] = new Wall(1 * 135, 12 * 119, 1, 12);
                 game[2][12] = new Wall(2 * 135, 12 * 119, 2, 12);
-            }
-            else if(countDeaths==3) {
+            } else if (countDeaths == 3) {
                 game[0][12] = new Wall(0 * 135, 12 * 119, 0, 12);
                 game[1][12] = new Wall(1 * 135, 12 * 119, 1, 12);
                 game[2][12] = new Wall(2 * 135, 12 * 119, 2, 12);
-            }
-            game=level.getMap();
-            player=level.getPlayer();
-           // bullet=level.getBullet();
-            reset=false;
+            }*/
+            game = level.getMap();
+            player = level.getPlayer();
+            // bullet=level.getBullet();
+            reset = false;
         }
         bgd.update(player.x);
 
@@ -120,14 +118,14 @@ public class ScrollerView extends SurfaceView implements SurfaceHolder.Callback 
                 }
             }
         }
-        boolean complete=checkLevelComplete();
+        boolean complete = checkLevelComplete();
         //System.out.println("COMPLETE? "+complete);
-        if(complete){
-            newLevel=newLevel+1;
-            System.out.println("NEW LEVEL="+newLevel);
+        if (complete) {
+            newLevel = newLevel + 1;
+            System.out.println("NEW LEVEL=" + newLevel);
             level.loadLevel(newLevel);
-            game=level.getMap();
-            player=level.getPlayer();
+            game = level.getMap();
+            player = level.getPlayer();
             //bullet=level.getBullet();
         }
         Bitmap fire = BitmapFactory.decodeResource(getResources(), R.drawable.fire);
@@ -138,13 +136,25 @@ public class ScrollerView extends SurfaceView implements SurfaceHolder.Callback 
         Bitmap fireball = BitmapFactory.decodeResource(getResources(), R.drawable.firebullet);
 
         c.drawBitmap(fire, null, game[7][8].space_rect, null);
-        if(!deadPlayer) {
+        if (!deadPlayer) {
             c.drawBitmap(dino, null, player.space_rect, null);
             //c.drawBitmap(fireball, null, bullet.space_rect, null);
         }
-        c.drawBitmap(dino, null, game[0][12].space_rect, null);
-        c.drawBitmap(dino, null, game[1][12].space_rect, null);
-        c.drawBitmap(dino, null, game[2][12].space_rect, null);
+
+        if(countDeaths==0){
+            c.drawBitmap(dino, null, game[0][12].space_rect, null);
+            c.drawBitmap(dino, null, game[1][12].space_rect, null);
+            c.drawBitmap(dino, null, game[2][12].space_rect, null);
+        }
+        else if(countDeaths==1) {
+            c.drawBitmap(dino, null, game[0][12].space_rect, null);
+            c.drawBitmap(dino, null, game[1][12].space_rect, null);
+        }
+        else if(countDeaths==2) {
+            c.drawBitmap(dino, null, game[0][12].space_rect, null);
+        }
+
+
         if(newLevel==1) {
             c.drawBitmap(one, null, game[4][12].space_rect, null);
         }
@@ -296,13 +306,13 @@ public class ScrollerView extends SurfaceView implements SurfaceHolder.Callback 
         //System.out.println("bulletplayer y=" + bulletplayer.y);
         System.out.println("fromX=" + fromX);
         System.out.println("toX=" + toX);
-        if (bullet.x == -15) {
+        if (bullet.x == -45) {
             fromX = 1;
             toX = 0;
-            count = 10;
+            count = 4;
         }
 
-        if (count == 10) {
+        if (count == 4) {
             if (game[toX][fromY].isPlayer() && killedOpponent == false) {
                 game[fromX][fromY] = new Space(fromX * 135, fromY * 119, fromX, fromY);
                 game[toX][fromY] = new Space(toX * 135, fromY * 119, toX, fromY);

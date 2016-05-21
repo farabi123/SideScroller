@@ -29,8 +29,8 @@ public class Bullet extends Space {
     }
 
     int move() {
-        if(counter<=9 ){
-        x = x - 15;
+        if(counter<=3 ){
+        x = x - 45;
         counter++;}
        return counter;
     }
