@@ -90,7 +90,7 @@ public class ScrollerView extends SurfaceView implements SurfaceHolder.Callback 
             c.restoreToCount(savedState);
         }
 
-        if(reset) {
+        if(reset && !deadPlayer) {
             System.out.println("RESET THE FUCKING LEVEL");
             level.loadLevel(newLevel);
             if(countDeaths==1) {
@@ -318,11 +318,12 @@ public class ScrollerView extends SurfaceView implements SurfaceHolder.Callback 
                     }
                     canFire = true;
                 } else if (countDeaths >= 3) {
+                    deadPlayer = true;
                     reset = false;
                     canFire = false;
                     playerCanFire = false;
                     game[toX][fromY] = new DeadPlayer((toX) * 135, fromY * 119, toX, fromY);
-                    deadPlayer = true;
+
                 }
             }
 
