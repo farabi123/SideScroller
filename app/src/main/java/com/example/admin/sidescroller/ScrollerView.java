@@ -137,7 +137,7 @@ public class ScrollerView extends SurfaceView implements SurfaceHolder.Callback 
         Bitmap three = BitmapFactory.decodeResource(getResources(), R.drawable.three);
         Bitmap fireball = BitmapFactory.decodeResource(getResources(), R.drawable.firebullet);
 
-        //c.drawBitmap(fire, null, game[7][8].space_rect, null);
+        c.drawBitmap(fire, null, game[7][8].space_rect, null);
         if(!deadPlayer) {
             c.drawBitmap(dino, null, player.space_rect, null);
             //c.drawBitmap(fireball, null, bullet.space_rect, null);
@@ -154,15 +154,15 @@ public class ScrollerView extends SurfaceView implements SurfaceHolder.Callback 
         else if(newLevel==3) {
             c.drawBitmap(three, null, game[4][12].space_rect, null);
         }
-        //opponentShoot();
+        opponentShoot();
         //playerShoot();
 
-        PlayerIndexX=player.Xindex;
+        //PlayerIndexX=player.Xindex;
         //BulletIndexX=bullet.Xindex;
-        level.update(PlayerIndexX, newLevel);
-        game=level.getNewMap(game,player,PlayerIndexX);
-        player=level.getNewPlayer();
-        System.out.println("player x position after is="+player.x);
+      //  level.update(PlayerIndexX, newLevel);
+       // game=level.getNewMap(game,player,PlayerIndexX);
+       /// player=level.getNewPlayer();
+       /// System.out.println("player x position after is="+player.x);
         //bullet=level.getNewBullet();
 
 
@@ -272,7 +272,7 @@ public class ScrollerView extends SurfaceView implements SurfaceHolder.Callback 
     }
 
     //opponent shooting method
-   /* public void opponentShoot() {
+    public void opponentShoot() {
 
         //long time2 = System.currentTimeMillis()/1000;
 
@@ -288,12 +288,11 @@ public class ScrollerView extends SurfaceView implements SurfaceHolder.Callback 
 
         }
         count = bullet.move();
-
-        int fromX = bullet.Xindex + 2;
-        int fromY = bullet.Yindex;
+        int fromX = bullet.x/135 + 2;
+        int fromY = bullet.y/119;
         int toX = fromX - 1;
         System.out.println("count=" + count);
-        System.out.println("bulletplayer x=" + bullet.x);
+        System.out.println("bullet x=" + bullet.x);
         //System.out.println("bulletplayer y=" + bulletplayer.y);
         System.out.println("fromX=" + fromX);
         System.out.println("toX=" + toX);
@@ -334,7 +333,7 @@ public class ScrollerView extends SurfaceView implements SurfaceHolder.Callback 
                 canFire=false;
                 playerCanFire=true;
             }*/
-       /*     else if (game[toX][fromY].isFree()) {
+            else if (game[toX][fromY].isFree()) {
                 game[toX][fromY] = new Bullet(toX * 135, fromY * 119, toX, fromY);
                 bullet = game[toX][fromY];
                 game[fromX][fromY] = new Space(fromX * 135, fromY * 119, fromX, fromY);
@@ -343,14 +342,15 @@ public class ScrollerView extends SurfaceView implements SurfaceHolder.Callback 
                 System.out.print("he thinks it's something ELSE");
                 System.out.println("CLASS ELSE: " + String.valueOf(game[toX][fromY].getClass()));
             }
+        }
+    }
             /*else if(game[toX][fromY].isBulletPlayer()) {
                 game[toX][fromY] = new Space(toX * 135, fromY * 119);
                 game[fromX][fromY] = new Space(fromX * 135, fromY * 119);
                 canFire=true;
                 playerCanFire = true;
-            }*/
-       // }
-    //}
+            }*?
+    }
 
     //Player shooting method
     /*public void playerShoot(){
